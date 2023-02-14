@@ -1,6 +1,7 @@
 package com.example.imovers.annonces.Residence;
 
-import com.example.imovers.annonces.Annonce;
+import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Cite.Cite;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class Quartier {
 
     @OneToMany(mappedBy = "quartier", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Annonce> annonces;
+    private List<Cite> cites;
 
     @ManyToOne(cascade = CascadeType.MERGE)
 //    @JsonBackReference

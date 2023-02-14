@@ -1,8 +1,10 @@
 package com.example.imovers.annonces.ImageData;
 
 
-import com.example.imovers.annonces.Annonce;
-import com.example.imovers.annonces.Visibility.Visibility;
+import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Cite.Cite;
+import com.example.imovers.annonces.Residence.Arrondissement;
+import com.example.imovers.annonces.Residence.Ville;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,4 +34,19 @@ public class ImageData {
 //    @JsonBackReference
 //    @JsonIgnore
     private Annonce annonce;
+
+    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    @JsonIgnore
+    private Cite cite;
+
+    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    @JsonIgnore
+    private Ville ville;
+
+    @ManyToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    @JsonIgnore
+    private Arrondissement arrondissement;
 }

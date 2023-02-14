@@ -25,7 +25,9 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     public Ville editVille(Ville ville) {
-        return null;
+        villeRepo.saveAndFlush(ville);
+        log.info("Editing Complete");
+        return ville;
     }
 
     @Override

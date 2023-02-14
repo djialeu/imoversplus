@@ -1,4 +1,4 @@
-package com.example.imovers.annonces;
+package com.example.imovers.annonces.Annonce;
 
 import com.example.imovers.security.SecurityService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,9 @@ public class AnnonceServiceImpl implements AnnonceService {
 
     @Override
     public Annonce editAnnonce(Annonce annonce) {
-        Annonce annonce1 = annonceRepo.findById(annonce.getId()).orElseThrow(() -> new IllegalStateException("No Annonce Found... Please pass a correct Annonce ID"));
-        annonce1.setAllProperties(annonce);
-        annonceRepo.saveAndFlush(annonce1);
+        annonceRepo.saveAndFlush(annonce);
         log.info("Editing Complete");
-        return annonce1;
+        return annonce;
     }
 
     @Override

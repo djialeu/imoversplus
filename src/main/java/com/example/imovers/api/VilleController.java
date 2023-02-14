@@ -1,24 +1,18 @@
 package com.example.imovers.api;
 
-import com.example.imovers.annonces.Annonce;
-import com.example.imovers.annonces.AnnonceService;
-import com.example.imovers.annonces.Categorie.Categorie;
-import com.example.imovers.annonces.Categorie.CategorieService;
+import com.example.imovers.annonces.ImageData.ImageData;
+import com.example.imovers.annonces.ImageData.StorageService;
 import com.example.imovers.annonces.Residence.Ville;
 import com.example.imovers.annonces.Residence.VilleService;
-import com.example.imovers.annonces.Type.Type;
-import com.example.imovers.annonces.Type.TypeService;
-import com.example.imovers.annonces.Visibility.Visibility;
-import com.example.imovers.annonces.Visibility.VisibilityService;
-import com.example.imovers.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,11 +21,25 @@ import java.util.List;
 public class VilleController {
 
     private final VilleService villeService;
+    private final StorageService storageService;
 
     @PostMapping(value = "/villes" )
-    public ResponseEntity<Ville> createVille(@RequestBody Ville ville  ){
+    public ResponseEntity<Ville> createVille(@RequestParam MultipartFile file,
+                                             @RequestParam String name  ,
+                                             @RequestParam String pays
+                                             ) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/villes/save").toUriString());
-        return ResponseEntity.created(uri).body(villeService.createVille(ville));
+        Ville newVille  = new Ville();
+        newVille.setName(name);
+        newVille.setPays(pays);
+        Ville returnVille =  villeService.createVille(newVille);
+        ImageData uploadImage = storageService.uploadImageVille(file , returnVille);
+        List<ImageData> imageDataList = new ArrayList<>();
+        imageDataList.add(uploadImage);
+        returnVille.setFilenames(uploadImage.getName());
+        returnVille.setImagesVille(imageDataList);
+        villeService.editVille(returnVille);
+        return ResponseEntity.created(uri).body(returnVille);
     }
 
     @GetMapping("/villes/{id}")

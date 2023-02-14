@@ -48,7 +48,7 @@ public class SecurityResource{
 
     @PostMapping("/users/save")
     public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
-        String defaultRole = "ROLE_USER";
+        String defaultRole = "ROLE_ADMIN";
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/admin/users/save").toUriString());
         AppUser tuser =  secure.saveUser(user);
             secure.addRoleToUser(tuser.getUsername() , defaultRole);

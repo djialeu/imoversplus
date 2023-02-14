@@ -1,4 +1,4 @@
-package com.example.imovers.annonces;
+package com.example.imovers.annonces.Annonce;
 
 
 import java.util.List;

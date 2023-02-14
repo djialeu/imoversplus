@@ -24,8 +24,10 @@ public class ArrondissementServiceImpl implements ArrondissementService {
     }
 
     @Override
-    public Arrondissement editArrondissement(Arrondissement arrondissement) {
-        return null;
+    public Arrondissement editArrondissement(Arrondissement arrondissement){
+        arrondissementRepo.saveAndFlush(arrondissement);
+        log.info("Editing Complete");
+        return arrondissement;
     }
 
     @Override

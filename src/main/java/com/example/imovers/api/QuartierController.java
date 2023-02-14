@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
-public class QuatierController {
+public class QuartierController {
 
     private final QuartierService quartierService;
     private final ArrondissementService arrondissementService;

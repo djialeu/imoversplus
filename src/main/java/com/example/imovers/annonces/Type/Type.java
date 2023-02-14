@@ -1,8 +1,7 @@
 package com.example.imovers.annonces.Type;
 
-import com.example.imovers.annonces.Annonce;
+import com.example.imovers.annonces.Annonce.Annonce;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
