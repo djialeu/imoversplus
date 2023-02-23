@@ -33,6 +33,20 @@ public class ImoversApplication {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean 
+	CommandLineRunner run(SecurityService sec){
+		return args -> {
+			AppUser usernew = new AppUser(46L , "ADMINISTRATEUR" , "djialeu@gmail.com", "new", "123456", "Bailleur" , new ArrayList<>(), new ArrayList<>());
+			if(!sec.ifExist(usernew.getUsername())){
+				AppRole admin = new AppRole("ROLE_ADMIN");
+				sec.saveRole(admin);
+				sec.saveUser(usernew);
+				sec.addRoleToUser(usernew.getUsername(), admin.getName());
+			}
+		};
+	}
+
+
 //	@Bean
 //	CommandLineRunner run(SecurityService sec, CategorieService categorieService, TypeService typeService, VisibilityService visibilityService, VilleService villeService, ArrondissementService arrondissementService, QuartierService quartierService, AnnonceService annonceService) {
 //		return args -> {
