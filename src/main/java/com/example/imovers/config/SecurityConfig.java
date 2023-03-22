@@ -27,18 +27,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
+
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/").permitAll();
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.formLogin().loginPage("/admin-imovers/login").permitAll();
+        http.formLogin().loginProcessingUrl("/admin-imovers/login");
+        http.formLogin().failureUrl("/admin-imovers/login?error=true");
+        http.logout()
+                .logoutUrl("/admin-imovers/logout")
+                .logoutSuccessUrl("/admin-imovers/login?logout")
+                .deleteCookies("JSESSIONID");
         http.authorizeRequests().antMatchers("/api/login/**", "/api/admin/refreshtoken/**" , "/api/register/**" , "/api/admin/exists/**" , "/api/admin/users/save/**" , "/image/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET ,"api/v1/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(HttpMethod.POST ,"api/v1/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT ,"api/v1/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.DELETE ,"api/v1/**").hasAnyAuthority("ROLE_ADMIN");
-//        http.authorizeRequests().antMatchers( "/api/admin/**").hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers( "/api/admin/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers( "/admin-imovers/**").hasAnyAuthority("ROLE_ADMIN");
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -27,7 +27,7 @@ public class ImoversApplication {
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(ImoversApplication.class, args);
+		 SpringApplication.run(ImoversApplication.class, args);
 	}
 
 	@Bean
@@ -35,7 +35,7 @@ public class ImoversApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
+	/* @Bean
 	CommandLineRunner run(SecurityService sec , CategorieService categorieService , TypeService typeService, VisibilityService visibilityService , VilleService villeService, ArrondissementService arrondissementService, QuartierService quartierService, AnnonceService annonceService){
 		return args -> {
 
@@ -265,5 +265,5 @@ public class ImoversApplication {
 ////			annonceService.createAnnonce(annonce2);
 		};
 	}
-
+ */
 }
