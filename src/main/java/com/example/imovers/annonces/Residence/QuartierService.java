@@ -8,4 +8,5 @@ public interface QuartierService {
     Quartier editQuartier(Quartier quartier);
     Quartier getQuartier(Long id);
     List<Quartier> getQuartiers();
+    List<Quartier> getQuartiersByArrondissement(Long id);
 }

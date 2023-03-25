@@ -1,8 +1,8 @@
 package com.example.imovers.annonces.Categorie;
 
-import com.example.imovers.annonces.Annonce;
+import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Cite.Cite;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +27,14 @@ public class Categorie{
     @NotNull
     @Column(unique = true)
     private String name;
+//    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
+//    @JsonIgnore
+////    @JsonManagedReference
+//    private List<Annonce> annonces;
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
     @JsonIgnore
 //    @JsonManagedReference
-    private List<Annonce> annonces;
+    private List<Cite> cites;
 
     public Categorie(String name){
         this.name = name;

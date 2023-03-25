@@ -1,5 +1,6 @@
 package com.example.imovers.annonces.Residence;
 
+import com.example.imovers.annonces.ImageData.ImageData;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,19 @@ public class Ville {
     @Column(unique = true)
     private String name;
 
+    private String pays;
+
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
     @JsonIgnore
 //    @JsonManagedReference
     private List<Arrondissement> arrondissements;
+
+
+    @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ImageData> imagesVille;
+
+    private String filenames;
 
     public Ville(String name){
         this.name = name;

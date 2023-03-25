@@ -12,9 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class SecurityServiceImpl implements SecurityService , UserDetailsService {
@@ -26,7 +28,8 @@ public class SecurityServiceImpl implements SecurityService , UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = userRepo.findAppUserByUsername(username);
-        if (user == null){
+        boolean active  = user.isActive();
+        if (user == null || active == false){
             log.info("User not found in the database");
             throw new UsernameNotFoundException("User not found in the database");
         }else {
@@ -45,23 +48,51 @@ public class SecurityServiceImpl implements SecurityService , UserDetailsService
     }
 
     @Override
+    public AppUser editUser(AppUser user) {
+        userRepo.saveAndFlush(user);
+        log.info("Editing Complete");
+        return user;
+    }
+
+    @Override
     public AppRole saveRole(AppRole role) {
         log.info("Saving new role {} to the database " , role.getName());
         return roleRepo.saveAndFlush(role);
     }
 
     @Override
-    public void addRoleToUser(String username, String rolename) {
-        log.info("Adding role {} to user {}" , rolename , username);
-        AppUser user = userRepo.findAppUserByUsername(username);
-        AppRole role = roleRepo.findAppRoleByName(rolename);
-        user.getRoles().add(role);
+    public AppRole getRole(String rolename) {
+        log.info("Fecthing role {}" , rolename);
+        return roleRepo.findAppRoleByName(rolename);
+    }
+
+    @Override
+    public void addRoleToUser(boolean clearFirst , long userid, String rolename) {
+
+        Optional<AppUser> user = userRepo.findById(userid);
+        if(user.isPresent()){
+            if(roleRepo.findAppRoleByName(rolename) != null){
+                AppRole role = roleRepo.findAppRoleByName(rolename);
+                if ( clearFirst ){
+                    user.get().getRoles().clear();
+                    user.get().getRoles().add(role);
+                }else{
+                    user.get().getRoles().add(role);
+                }
+            }
+        }
+        log.info("Adding role {} to user {}" , rolename , user.isPresent() ? user.get().getName() : "");
     }
 
     @Override
     public AppUser getUser(String username) {
         log.info("Fecthing user {}" , username);
         return userRepo.findAppUserByUsername(username);
+    }
+
+    @Override
+    public AppUser findUser(long id) {
+        return userRepo.findById(id).orElseThrow(() -> new IllegalStateException("User not Found"));
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
-public class QuatierController {
+public class QuartierController {
 
     private final QuartierService quartierService;
     private final ArrondissementService arrondissementService;
@@ -32,6 +32,13 @@ public class QuatierController {
     public Quartier getQuartier(@PathVariable Long quartierId){
         return quartierService.getQuartier(quartierId);
     }
+
+
+    @GetMapping("/quartiers/arrondissement")
+    public List<Quartier> getArrondissementsByVille(@RequestParam() Long arrondissementId){
+        return quartierService.getQuartiersByArrondissement(arrondissementId);
+    }
+
 
     @GetMapping("/quartiers")
     public List<Quartier> getQuartiers(){

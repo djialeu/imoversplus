@@ -1,12 +1,16 @@
 package com.example.imovers.annonces.ImageData;
 
-import com.example.imovers.annonces.Annonce;
+import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Cite.Cite;
+import com.example.imovers.annonces.Residence.Arrondissement;
+import com.example.imovers.annonces.Residence.Ville;
+import com.example.imovers.security.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -15,35 +19,73 @@ public class StorageService {
     private StorageRepository repository;
 
     public ImageData uploadImage(MultipartFile file, Annonce annonce) throws IOException {
-
-        ImageData imageData = repository.save(ImageData.builder()
-                .name(annonce.getId() + annonce.getDatepublication().toInstant().toEpochMilli() +  file.getOriginalFilename())
-                .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(file.getBytes()))
-                .annonce(annonce)
-                .build());
-        if (imageData != null) {
-            return imageData;
+        if(file != null && annonce != null){
+            return repository.save(ImageData.builder()
+                    .name(annonce.getId() + annonce.getDatepublication().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .annonce(annonce)
+                    .build());
+        }
+        return  null;
+    }
+    public ImageData uploadImageVille(MultipartFile file, Ville ville) throws IOException {
+        if (file != null && ville != null){
+            return repository.save(ImageData.builder()
+                    .name(ville.getId() + new Date().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .ville(ville)
+                    .build());
+        }
+        return null;
+    }
+    public ImageData uploadImageArrondissement(MultipartFile file, Arrondissement arrondissement) throws IOException {
+        if (file != null && arrondissement != null){
+            return repository.save(ImageData.builder()
+                    .name(arrondissement.getId() + new Date().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .arrondissement(arrondissement)
+                    .build());
+        }
+        return null;
+    }
+    public ImageData uploadImageCite(MultipartFile file, Cite cite) throws IOException {
+        if (file != null && cite != null){
+            return repository.save(ImageData.builder()
+                    .name(cite.getId() + new Date().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .cite(cite)
+                    .build());
+        }
+        return null;
+    }
+    public ImageData uploadImageAppUser(MultipartFile file, AppUser user) throws IOException {
+        if (file != null && user != null){
+            return repository.save(ImageData.builder()
+                    .name(user.getId() + new Date().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .user(user)
+                    .build());
         }
         return null;
     }
 
     public String uploadOnlyImage(MultipartFile file) throws IOException {
 
-        ImageData imageData = repository.save(ImageData.builder()
-                .name( file.getOriginalFilename())
+        repository.save(ImageData.builder()
+                .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(ImageUtils.compressImage(file.getBytes()))
                 .build());
-        if (imageData != null) {
-            return "file uploaded successfully : " + file.getOriginalFilename();
-        }
-        return null;
+        return "file uploaded successfully : " + file.getOriginalFilename();
     }
 
     public byte[] downloadImage(String fileName){
         Optional<ImageData> dbImageData = repository.findByName(fileName);
-        byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
-        return images;
+        return ImageUtils.decompressImage(dbImageData.get().getImageData());
     }
 }
