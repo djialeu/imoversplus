@@ -1,7 +1,7 @@
 package com.example.imovers.Administration;
 
-import com.example.imovers.annonces.Annonce;
-import com.example.imovers.annonces.AnnonceService;
+import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Annonce.AnnonceService;
 import com.example.imovers.security.AppUser;
 import com.example.imovers.security.SecurityServiceImpl;
 import com.example.imovers.security.UserPrincipal;

@@ -70,6 +70,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Compte tmp = compteService.createCompte(compte);
 //                comptes.remove(compte);
                 real_comptes.add(tmp);
+            }else{
+                real_comptes.add(compte);
             }
         } );
 
@@ -84,6 +86,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 AppRole tmp = securityService.saveRole(role);
 //                roles.remove(role);
                 real_roles.add(tmp);
+            }else{
+                real_roles.add(role);
             }
         });
 
@@ -100,6 +104,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Visibility tmp = visibilityService.createVisibility(visibility);
 //                visibilities.remove(visibility);
                 real_visibilities.add(tmp);
+            }else{
+                real_visibilities.add(visibility);
             }
         });
 
@@ -116,6 +122,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Type tmp = typeService.createType(type);
 //                types.remove(type);
                 real_types.add(tmp);
+            }else{
+                real_types.add(type);
             }
         });
 
@@ -132,6 +140,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Ville tmp = villeService.createVille(ville);
 //                villes.remove(ville);
                 real_villes.add(tmp);
+            }else{
+                real_villes.add(ville);
             }
         });
 
@@ -148,6 +158,8 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Arrondissement tmp = arrondissementService.createArrondissement(arrondissement);
 //                arrondissements.remove(arrondissement);
                 real_arrondissements.add(tmp);
+            }else{
+                real_arrondissements.add(arrondissement);
             }
         });
 
@@ -164,17 +176,19 @@ public class DataFixture implements ApplicationListener<ContextRefreshedEvent> {
                 Quartier tmp = quartierService.createQuartier(quartier);
 //                quartiers.remove(quartier);
                 real_quartiers.add(tmp);
+            }else{
+                real_quartiers.add(quartier);
             }
         });
 
-        Categorie vente = categorieService.createCategorie(new Categorie("VENTE"));
-        Categorie location = categorieService.createCategorie(new Categorie("LOCATION"));
+        Categorie vente = categorieService.findByName("VENTE") == null ? categorieService.createCategorie(new Categorie("VENTE")): null;
+        Categorie location = categorieService.findByName("LOCATION") == null ? categorieService.createCategorie(new Categorie("LOCATION")):null;
 
 
         AppUser usernew = new AppUser(46L , "ADMINISTRATEUR" , "+237690514269", "new", "123456", "Cameroun" , "Bafoussam" , true , null , real_comptes.get(5), new ArrayList<>(), new ArrayList<>() , new ArrayList<>());
         if(!securityService.ifExist(usernew.getUsername())){
-            securityService.saveUser(usernew);
-            securityService.addRoleToUser(true ,usernew.getId(), roles.get(2).getName());
+            AppUser user =  securityService.saveUser(usernew);
+            securityService.addRoleToUser(true ,user.getId(), real_roles.get(2).getName());
         }
 
         if(!onload){
