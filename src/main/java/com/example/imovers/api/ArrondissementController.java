@@ -1,5 +1,6 @@
 package com.example.imovers.api;
 
+import com.example.imovers.annonces.Cite.Cite;
 import com.example.imovers.annonces.ImageData.ImageData;
 import com.example.imovers.annonces.ImageData.StorageService;
 import com.example.imovers.annonces.Residence.Arrondissement;
@@ -31,10 +32,12 @@ public class ArrondissementController {
                                                                @RequestParam String name,
                                                                @RequestParam String ville) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/v1/arrondissements/save").toUriString());
-        Ville theVille = villeService.findByName(ville);
         Arrondissement newArrondissement  =  new Arrondissement();
+        if(villeService.findByName(ville) != null){
+            Ville theVille = villeService.findByName(ville);
+            newArrondissement.setVille(theVille);
+        }
         newArrondissement.setName(name);
-        newArrondissement.setVille(theVille);
         Arrondissement returnArrondissement =  arrondissementService.createArrondissement(newArrondissement);
         ImageData uploadImage = storageService.uploadImageArrondissement(file, returnArrondissement);
         List<ImageData> imageDataList = new ArrayList<>();
@@ -45,9 +48,30 @@ public class ArrondissementController {
         return ResponseEntity.created(uri).body(returnArrondissement);
     }
 
+    @PostMapping("/arrondissement/addImage")
+    public ResponseEntity<Arrondissement> addImage(@RequestParam long id , @RequestParam MultipartFile file) throws IOException {
+        Arrondissement arrondissement = arrondissementService.findById(id);
+        if(arrondissement != null){
+            ImageData uploadImage = storageService.uploadImageArrondissement(file ,arrondissement);
+            List<ImageData> imageDataList = new ArrayList<>();
+            imageDataList.add(uploadImage);
+            arrondissement.setFilenames(uploadImage.getName());
+            arrondissement.setImagesArrondissment(imageDataList);
+            Arrondissement rA = arrondissementService.editArrondissement(arrondissement);
+            return  ResponseEntity.ok().body(rA);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @GetMapping("/arrondissements/{id}")
     public Arrondissement getArrondissement(@PathVariable Long arrondissementId){
         return arrondissementService.getArrondissement(arrondissementId);
+    }
+
+    @GetMapping("/arrondissements/ville")
+    public List<Arrondissement> getArrondissementsByVille(@RequestParam() Long villeId){
+        return arrondissementService.getArrondissementsByVille(villeId);
     }
 
     @GetMapping("/arrondissements")

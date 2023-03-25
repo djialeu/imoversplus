@@ -36,8 +36,13 @@ public class CiteServiceImpl implements CiteService {
     }
 
     @Override
-    public Cite findByName(String type) {
-        return citeRepo.findCiteByName(type);
+    public Cite findByName(String cite) {
+        return citeRepo.findCiteByName(cite);
+    }
+
+    @Override
+    public Cite findById(long id) {
+        return citeRepo.findById(id).orElseThrow(() -> new IllegalStateException("Cite Not found"));
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor @Transactional
@@ -16,6 +17,11 @@ public class VilleServiceImpl implements VilleService {
     @Override
     public Ville findByName(String ville) {
         return villeRepo.findVilleByName(ville);
+    }
+
+    @Override
+    public Ville findById(long id) {
+        return villeRepo.findById(id).orElseThrow(() -> new IllegalStateException("Not Found"));
     }
 
     @Override

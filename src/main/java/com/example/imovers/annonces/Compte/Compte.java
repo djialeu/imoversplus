@@ -1,6 +1,9 @@
-package com.example.imovers.annonces.Visibility;
+package com.example.imovers.annonces.Compte;
 
 import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.ImageData.ImageData;
+import com.example.imovers.annonces.Residence.Quartier;
+import com.example.imovers.security.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -15,26 +18,20 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Visibility{
-//    REVIEW("REVIEW"),
-//    APPROVED("APPROVED"),
-//    REJECTED("REJECTED"),
-//    DELETE("DELETE"),
-//    UNAVAILABLE("UNAVAILABLE"),
-
+public class Compte {
     @Id
     @GeneratedValue
     private long Id;
     @NotNull
     @Column(unique = true)
-    private String name;
-    @OneToMany(mappedBy = "visibility",cascade = CascadeType.ALL)
+    private String label;
+
+    @OneToMany(mappedBy = "compte", cascade = CascadeType.ALL)
     @JsonIgnore
-//    @JsonManagedReference
-    private List<Annonce> annonces;
+    private List<AppUser> users;
 
-    public Visibility(String name){
-        this.name = name;
+    public Compte(String label){
+        this.label = label;
     }
-
 }
+

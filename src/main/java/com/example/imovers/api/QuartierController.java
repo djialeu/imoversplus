@@ -33,6 +33,13 @@ public class QuartierController {
         return quartierService.getQuartier(quartierId);
     }
 
+
+    @GetMapping("/quartiers/arrondissement")
+    public List<Quartier> getArrondissementsByVille(@RequestParam() Long arrondissementId){
+        return quartierService.getQuartiersByArrondissement(arrondissementId);
+    }
+
+
     @GetMapping("/quartiers")
     public List<Quartier> getQuartiers(){
         return quartierService.getQuartiers();

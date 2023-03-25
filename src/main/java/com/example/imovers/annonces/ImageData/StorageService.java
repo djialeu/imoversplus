@@ -4,6 +4,7 @@ import com.example.imovers.annonces.Annonce.Annonce;
 import com.example.imovers.annonces.Cite.Cite;
 import com.example.imovers.annonces.Residence.Arrondissement;
 import com.example.imovers.annonces.Residence.Ville;
+import com.example.imovers.security.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +58,17 @@ public class StorageService {
                     .type(file.getContentType())
                     .imageData(ImageUtils.compressImage(file.getBytes()))
                     .cite(cite)
+                    .build());
+        }
+        return null;
+    }
+    public ImageData uploadImageAppUser(MultipartFile file, AppUser user) throws IOException {
+        if (file != null && user != null){
+            return repository.save(ImageData.builder()
+                    .name(user.getId() + new Date().toInstant().toEpochMilli() +  file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .imageData(ImageUtils.compressImage(file.getBytes()))
+                    .user(user)
                     .build());
         }
         return null;

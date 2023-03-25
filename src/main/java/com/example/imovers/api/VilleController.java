@@ -2,6 +2,7 @@ package com.example.imovers.api;
 
 import com.example.imovers.annonces.ImageData.ImageData;
 import com.example.imovers.annonces.ImageData.StorageService;
+import com.example.imovers.annonces.Residence.Arrondissement;
 import com.example.imovers.annonces.Residence.Ville;
 import com.example.imovers.annonces.Residence.VilleService;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,22 @@ public class VilleController {
         returnVille.setImagesVille(imageDataList);
         villeService.editVille(returnVille);
         return ResponseEntity.created(uri).body(returnVille);
+    }
+
+    @PostMapping("/ville/addImage")
+    public ResponseEntity<Ville> addImage(@RequestParam long id , @RequestParam MultipartFile file) throws IOException {
+        Ville ville = villeService.findById(id);
+        if(ville != null){
+            ImageData uploadImage = storageService.uploadImageVille(file ,ville);
+            List<ImageData> imageDataList = new ArrayList<>();
+            imageDataList.add(uploadImage);
+            ville.setFilenames(uploadImage.getName());
+            ville.setImagesVille(imageDataList);
+            Ville rville = villeService.editVille(ville);
+            return  ResponseEntity.ok().body(rville);
+        }else{
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @GetMapping("/villes/{id}")

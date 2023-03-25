@@ -23,16 +23,16 @@ public class Annonce{
     @GeneratedValue
     private Long id;
 
-    @ManyToOne()
-//    @JsonBackReference
-//    @JsonIgnore
-    private AppUser author;
+//    @ManyToOne()
+////    @JsonBackReference
+////    @JsonIgnore
+//    private AppUser author;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "categorie_id")
-//    @JsonBackReference
-//    @JsonIgnore
-    private Categorie categorie;
+//    @ManyToOne(cascade = CascadeType.MERGE)
+////    @JoinColumn(name = "categorie_id")
+////    @JsonBackReference
+////    @JsonIgnore
+//    private Categorie categorie;
 
     @ManyToOne(cascade = CascadeType.MERGE)
 //    @JsonBackReference
@@ -74,9 +74,9 @@ public class Annonce{
         this.type = annonce.type != null ? annonce.type: this.type;
         this.description = annonce.description != null ? annonce.description: this.description;
         this.imageP = annonce.imageP;
-        this.categorie = annonce.categorie != null ? annonce.categorie: this.categorie;
+//        this.categorie = annonce.categorie != null ? annonce.categorie: this.categorie;
         this.visibility = annonce.visibility != null ? annonce.visibility : this.visibility;
-        this.author = annonce.author != null ? annonce.author : this.author;
+//        this.author = annonce.author != null ? annonce.author : this.author;
 //        this.localisation = annonce.localisation != null ? annonce.localisation : this.localisation;
         this.nbChambres =  annonce.nbChambres ;
         this.nbCuisines =  annonce.nbCuisines ;

@@ -8,4 +8,5 @@ public interface CiteService {
     Cite getCite(Long id);
     List<Cite> getCites();
     Cite findByName(String cite);
+    Cite findById(long id);
 }

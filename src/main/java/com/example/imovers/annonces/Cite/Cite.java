@@ -1,6 +1,7 @@
 package com.example.imovers.annonces.Cite;
 
 import com.example.imovers.annonces.Annonce.Annonce;
+import com.example.imovers.annonces.Categorie.Categorie;
 import com.example.imovers.annonces.ImageData.ImageData;
 import com.example.imovers.annonces.Residence.Quartier;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,6 +13,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.imovers.security.AppUser;
 
 @Entity
 @Table
@@ -27,10 +30,21 @@ public class Cite {
     @Column(unique = true)
     private String name;
 
+    @ManyToOne()
+    //    @JsonBackReference
+    //    @JsonIgnore
+    private AppUser author;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+//    @JoinColumn(name = "categorie_id")
+//    @JsonBackReference
+//    @JsonIgnore
+    private Categorie categorie;
+
     @ManyToOne(cascade = CascadeType.MERGE)
 //    @JsonBackReference
 //    @JsonIgnore
-    Quartier quartier ;
+    private Quartier quartier ;
 
     @OneToMany(mappedBy = "cite", cascade = CascadeType.ALL)
     @JsonIgnore

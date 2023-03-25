@@ -16,7 +16,7 @@ public class AnnonceServiceImpl implements AnnonceService {
 
     @Override
     public Annonce createAnnonce(Annonce annonce) {
-        log.info("Saving annonce: {}" +annonce.getCategorie() + " " + annonce.type);
+        log.info("Saving annonce: {}"  + annonce.type);
         return annonceRepo.saveAndFlush(annonce);
     }
 
