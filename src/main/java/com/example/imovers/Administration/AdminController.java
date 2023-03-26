@@ -35,6 +35,11 @@ public class AdminController {
         return "dashboard";
     }
 
+    @GetMapping(path = "/policy")
+    public String policy(Model model){
+        return "policy";
+    }
+
     @GetMapping(path = "/users")
     public String users(Model model){
         Authentication connectedUser = SecurityContextHolder.getContext().getAuthentication();
