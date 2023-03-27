@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/admin-imovers/logout")
                 .logoutSuccessUrl("/admin-imovers/login?logout")
                 .deleteCookies("JSESSIONID");
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/admin/refreshtoken/**" , "/api/register/**" , "/api/admin/exists/**" , "/api/admin/users/save/**" , "/image/**" , "/api/admin/comptes**" , "/api/admin/keys**" , "/admin-imovers/policy").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**", "/api/admin/refreshtoken/**" , "/api/register/**" , "/api/admin/exists/**" , "/api/admin/users/save/**", "/api/admin/users/edit/**"  , "/image/**" , "/api/admin/comptes**" , "/api/admin/keys**" , "/admin-imovers/policy").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET ,"api/v1/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(HttpMethod.POST ,"api/v1/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT ,"api/v1/**").hasAnyAuthority("ROLE_ADMIN");

@@ -18,6 +18,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,6 +42,7 @@ public class SecurityResource{
     private  final CompteService service;
     private final StorageService storageService;
     private final VilleService villeService;
+    private final PasswordEncoder encoder;
 
     @GetMapping("/exists")
     public ResponseEntity<Boolean> ifexists(@RequestParam String identifier){
@@ -80,7 +82,9 @@ public class SecurityResource{
         Compte associateCompte = service.findById(compte);
         user.setCompte(associateCompte);
         AppUser tuser =  secure.saveUser(user);
-        secure.addRoleToUser(true ,tuser.getId() , defaultRole);
+        if(user.getRoles().isEmpty()){
+            secure.addRoleToUser(true ,tuser.getId() , defaultRole);
+        }
         if(villeService.findByName(user.getVille()) == null){
             Ville ville = new Ville();
             ville.setPays(user.getPays());
@@ -88,6 +92,36 @@ public class SecurityResource{
             villeService.createVille(ville);
         }
         return ResponseEntity.created(uri).body(tuser);
+    }
+    @PatchMapping("/users/edit")
+    public ResponseEntity<AppUser> editUser(@RequestBody AppUser user , @RequestParam() long compte){
+        // String defaultRole = "ROLE_ADMIN";
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/admin/users/edit").toUriString());
+        Compte associateCompte = service.findById(compte);
+        
+        AppUser existingUser = secure.findUser(user.getId());
+
+        if(user.getEmail() != null){
+            existingUser.setEmail(user.getEmail());
+        }
+        if(user.getName() != null ){
+            existingUser.setName(user.getName());
+        }
+        existingUser.setActive(user.isActive());
+        
+        // existingUser.setUsername(user.getUsername());
+        existingUser.setCompte(associateCompte);
+        // existingUser.setPassword(encoder.encode(user.getPassword()));
+        if(user.getVille() != null){
+            existingUser.setVille(user.getVille());
+        }
+        if(villeService.findByName(user.getVille()) == null){
+            Ville ville = new Ville();
+            ville.setPays(user.getPays());
+            ville.setName(user.getVille());
+            villeService.createVille(ville);
+        }
+        return ResponseEntity.ok(secure.editUser(existingUser));
     }
 
     @PostMapping("/role/save")

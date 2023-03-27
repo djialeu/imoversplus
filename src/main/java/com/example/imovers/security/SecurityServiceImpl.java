@@ -49,7 +49,7 @@ public class SecurityServiceImpl implements SecurityService , UserDetailsService
 
     @Override
     public AppUser editUser(AppUser user) {
-        userRepo.saveAndFlush(user);
+        userRepo.save(user);
         log.info("Editing Complete");
         return user;
     }
