@@ -9,4 +9,5 @@ public interface AnnonceService{
     Annonce getAnnonce(Long id);
     List<Annonce> getAnnonces();
     List<Annonce> getAnnoncesByCiteId(long id);
+    List<Annonce> getApprovedAnnonces();
 }

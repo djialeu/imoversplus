@@ -41,4 +41,9 @@ public class AnnonceServiceImpl implements AnnonceService {
     public List<Annonce> getAnnoncesByCiteId(long id) {
         return annonceRepo.findByCiteId(id);
     }
+
+    @Override
+    public List<Annonce> getApprovedAnnonces() {
+        return annonceRepo.getApprovedAnnonces();
+    }
 }

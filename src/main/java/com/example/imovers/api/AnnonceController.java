@@ -179,6 +179,11 @@ public class AnnonceController{
         return annonceService.getAnnonces();
     }
 
+    @GetMapping("/annonces/approved")
+    public List<Annonce> getApprovedAnnonces(){
+        return annonceService.getApprovedAnnonces();
+    }
+
     @GetMapping("/annonces/cite/{cid}")
     public List<Annonce> getAnnoncesByCiteId(@PathVariable("cid") long cid){
         return annonceService.getAnnoncesByCiteId(cid);

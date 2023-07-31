@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnnonceRepo extends JpaRepository<Annonce, Long>{
-    @Query("SELECT c FROM Annonce c WHERE c.cite.id = :citeId")
+    @Query("SELECT a FROM Annonce a WHERE a.cite.id = :citeId")
     List<Annonce> findByCiteId (long citeId);
+    @Query("SELECT a FROM Annonce a WHERE a.visibility.name = 'APPROVED' ")
+    List<Annonce> getApprovedAnnonces();
 }
