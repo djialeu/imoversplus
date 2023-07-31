@@ -153,10 +153,24 @@ public class AnnonceController{
         }
     }
 
+    @PostMapping("/annonces/edit/visibility/{id}")
+    public Annonce editAnnonceVisibility(@PathVariable long id , @RequestParam String visibility){
+        Annonce annonce = annonceService.getAnnonce(id);
+        annonce.setVisibility(visibilityService.findByName(visibility));
+        annonceService.editAnnonce(annonce);
+        return annonce;
+    }
 
+    @PostMapping("/annonces/delete/{id}")
+    public ResponseEntity<String> deleteAnnonce(@PathVariable long id){
+        Annonce annonce = annonceService.getAnnonce(id);
+        annonce.setVisibility(visibilityService.findByName("DELETE"));
+        annonceService.editAnnonce(annonce);
+        return ResponseEntity.ok("Annonce edited as delete.");
+    }
 
     @GetMapping("/annonces/{id}")
-    public Annonce getAnnonce(@PathVariable Long annonceId){
+    public Annonce getAnnonce(@PathVariable long annonceId){
         return annonceService.getAnnonce(annonceId);
     }
 
