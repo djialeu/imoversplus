@@ -9,4 +9,5 @@ public interface CiteService {
     List<Cite> getCites();
     Cite findByName(String cite);
     Cite findById(long id);
+    List<Cite> findByQuartierId(long id);
 }

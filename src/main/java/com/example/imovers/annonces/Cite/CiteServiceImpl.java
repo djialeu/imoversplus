@@ -45,4 +45,9 @@ public class CiteServiceImpl implements CiteService {
         return citeRepo.findById(id).orElseThrow(() -> new IllegalStateException("Cite Not found"));
     }
 
+    @Override
+    public List<Cite> findByQuartierId(long id) {
+        return citeRepo.findByQuartierId(id);
+    }
+
 }

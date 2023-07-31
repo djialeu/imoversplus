@@ -104,6 +104,13 @@ public class CiteController {
     }
 
 
+    // Get Cite by Quartier ID
+    @GetMapping("/cites/quartier/{qid}")
+    public List<Cite> getCitesByQuartierId(@PathVariable("qid") Long qid){
+        return service.findByQuartierId(qid);
+    }
+
+
     // Update operation
     @PutMapping("/cites/{id}")
     public Cite updateCite(@RequestBody Cite cite,
