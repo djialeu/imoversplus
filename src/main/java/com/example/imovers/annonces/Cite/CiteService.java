@@ -11,4 +11,5 @@ public interface CiteService {
     Cite findById(long id);
     List<Cite> findByQuartierId(long id);
     List<Cite> findByAppUserId(long id);
+    void deleteCite(long id);
 }

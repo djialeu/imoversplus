@@ -14,6 +14,7 @@ import com.example.imovers.annonces.Residence.QuartierService;
 import com.example.imovers.annonces.Type.Type;
 import com.example.imovers.annonces.Type.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -126,9 +127,14 @@ public class CiteController {
 
     // Delete operation
     @DeleteMapping("/cites/{id}")
-    public String deleteCiteById(@PathVariable("id")
+    public ResponseEntity<String> deleteCiteById(@PathVariable("id")
                                          Long citeId)
     {
-        return null;
+        try {
+            service.deleteCite(citeId);
+            return ResponseEntity.ok("Cite and its associated entities deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting Cite.");
+        }
     }
 }

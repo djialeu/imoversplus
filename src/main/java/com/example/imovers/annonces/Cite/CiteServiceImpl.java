@@ -55,4 +55,13 @@ public class CiteServiceImpl implements CiteService {
         return citeRepo.findByAppUserId(id);
     }
 
+    @Transactional
+    @Override
+    public void deleteCite(long id) {
+        Cite cite =  citeRepo.findById(id).orElse(null);
+        if (cite != null){
+            citeRepo.delete(cite);
+        }
+    }
+
 }
