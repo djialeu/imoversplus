@@ -8,4 +8,5 @@ public interface AnnonceService{
     Annonce editAnnonce(Annonce annonce);
     Annonce getAnnonce(Long id);
     List<Annonce> getAnnonces();
+    List<Annonce> getAnnoncesByCiteId(long id);
 }

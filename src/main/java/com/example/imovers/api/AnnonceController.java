@@ -165,5 +165,10 @@ public class AnnonceController{
         return annonceService.getAnnonces();
     }
 
+    @GetMapping("/annonces/cite/{cid}")
+    public List<Annonce> getAnnoncesByCiteId(@PathVariable("cid") long cid){
+        return annonceService.getAnnoncesByCiteId(cid);
+    }
+
 
 }
