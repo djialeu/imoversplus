@@ -110,6 +110,11 @@ public class CiteController {
         return service.findByQuartierId(qid);
     }
 
+    //Get Cite by Author ID
+    @GetMapping("cites/author/{aid}")
+    public List<Cite> getCitesByAuthorId(@PathVariable("aid") long aid){
+        return service.findByAppUserId(aid);
+    }
 
     // Update operation
     @PutMapping("/cites/{id}")

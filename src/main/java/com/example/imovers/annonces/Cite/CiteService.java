@@ -10,4 +10,5 @@ public interface CiteService {
     Cite findByName(String cite);
     Cite findById(long id);
     List<Cite> findByQuartierId(long id);
+    List<Cite> findByAppUserId(long id);
 }

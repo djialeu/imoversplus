@@ -50,4 +50,9 @@ public class CiteServiceImpl implements CiteService {
         return citeRepo.findByQuartierId(id);
     }
 
+    @Override
+    public List<Cite> findByAppUserId(long id) {
+        return citeRepo.findByAppUserId(id);
+    }
+
 }
